@@ -7,6 +7,7 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
+productRoutes.post("/seedDB", productController.seederDB);
 productRoutes.post(
   "/sendFile",
   upload.single("file"),

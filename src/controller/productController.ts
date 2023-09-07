@@ -70,4 +70,21 @@ async function existProduct(file: any) {
   }
   return result;
 }
+//Vereficar novo preco e preço de custo
+async function costPriceNewPrice(file: any) {
+  const result: object[] = [];
+  file.forEach((e: any) => {
+    if (typeof e.data == "string" || e.invalidElement !== "Dados OK") {
+      result.push({ ...e, cost: "Dados invalido" });
+      return;
+    }
+    if (Number(e.new_price) < e.data.cost_price) {
+      result.push({ ...e, cost: "Novo preco menor que custo" });
+      return;
+    } else {
+      result.push({ ...e, cost: "Dados OK" });
+    }
+  });
+  return result;
+}
 }

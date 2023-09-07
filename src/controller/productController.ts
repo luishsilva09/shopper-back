@@ -1,14 +1,22 @@
 import { Request, Response } from "express";
 import csv from "csvtojson";
+import * as productRepository from "../repositories/productRepository";
 import connection from "../database/mysql";
 import fs from "fs";
 import path from "path";
+import { db } from "../database/db";
 
+export async function validateFile(req: Request, res: Response) {
   const file = req.file;
-  if (!file) throw "erro";
+  if (!file) return res.send("faltando arquivo").status(404);
 
-  const fullData = await csv().fromString(file.buffer.toString());
+  let result: Array<object> = [];
 
-  console.log(fullData);
-  res.send("OK");
+  result = await missElement(file);
+  result = await existProduct(result);
+  result = await costPriceNewPrice(result);
+  result = await validNewPrice(result);
+  //   result = await packPrice(result);
+  res.send(result);
+}
 }

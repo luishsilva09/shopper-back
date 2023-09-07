@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
 import csv from "csvtojson";
-import * as productRepository from "../repositories/productRepository";
-import connection from "../database/mysql";
-import fs from "fs";
-import path from "path";
 import { db } from "../database/db";
 
 export async function validateFile(req: Request, res: Response) {

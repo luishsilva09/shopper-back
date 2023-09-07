@@ -91,12 +91,13 @@ async function validNewPrice(file: any) {
       result.push({ ...e, novoPreco: "Dados invalido" });
       return;
     }
-    const MAXPRICE = e.data.sales_price + (e.data.sales_price * 10) / 100;
-    const MINPRICE = e.data.sales_price - (e.data.sales_price * 10) / 100;
-
-    if (e.new_price < MINPRICE) {
+    const MAXPRICE =
+      Number(e.data.sales_price) + (Number(e.data.sales_price) * 10) / 100;
+    const MINPRICE =
+      Number(e.data.sales_price) - (Number(e.data.sales_price) * 10) / 100;
+    if (Number(e.new_price) < MINPRICE) {
       result.push({ ...e, novoPreco: "Menor que 10%" });
-    } else if (e.new_price < MAXPRICE) {
+    } else if (Number(e.new_price) > MAXPRICE) {
       result.push({ ...e, novoPreco: "Maior que 10%" });
     } else {
       result.push({ ...e, novoPreco: "Dados OK" });

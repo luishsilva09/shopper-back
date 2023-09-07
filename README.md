@@ -1,6 +1,3 @@
-npx prisma migrate dev = criar db e seed
-npx prisma db seed = para rodar seed
-
 <h1 align="center">Shopper desafio</h1>
 
 <div align="center">
@@ -14,17 +11,18 @@ npx prisma db seed = para rodar seed
   <!--  Badges  source:  https://dev.to/envoy_/150-badges-for-github-pnk  -->
 </div>
 
-# Descrção
+# Descrição
 
-Atualizar dados de um ecommerce por um arquivo csv.
+Atualizar dados de um e-commerce por um arquivo csv.
 
 # Features
 
-- Validar dados e atualizar
+- Validar dados
+- Atualizar os dados
 
-# API referencias
+# API referências
 
-### validar e atualizar dados:
+### validar:
 
 ```http
     POST /sendFile
@@ -34,11 +32,46 @@ Request:
 
 Upload do arquivo
 
+Response:
+
+```json
+[
+  {
+    "product_code": "16",
+    "new_price": "20.50",
+    "invalidElement": "Dados OK",
+    "data": {
+      "code": 16,
+      "name": "AZEITE PORTUGUÊS EXTRA VIRGEM GALLO 500ML",
+      "cost_price": "18.44",
+      "sales_price": "20.49"
+    },
+    "cost": "Dados OK",
+    "novoPreco": "Dados OK"
+  },
+  {
+    "product_code": "20",
+    "new_price": "10.80",
+    "invalidElement": "Dados OK",
+    "data": {
+      "code": 20,
+      "name": "ENERGÉTICO RED BULL ENERGY DRINK 355ML",
+      "cost_price": "9.71",
+      "sales_price": "10.79"
+    },
+    "cost": "Dados OK",
+    "novoPreco": "Dados OK"
+  }
+]
+```
+
 </br>
+
+### Atualizar dados
 
 # Variaveis
 
-`DATABASE_URL = mysql://UserName:Password@Hostname:5432/DatabaseName`
+`DATABASE_URL = mysql://UserName:Password@Hostname:3306/DatabaseName`
 
 `PORT = number #recommended:4000`
 

@@ -51,4 +51,23 @@ async function missElement(file: Express.Multer.File) {
   });
   return result;
 }
+//verifique se o codigo do produto existe
+async function existProduct(file: any) {
+  let result: Array<object> = [];
+
+  for (let i = 0; i < file.length; i++) {
+    const data = await db.products.findUnique({
+      where: { code: Number(file[i]?.product_code) || 0 },
+    });
+    if (data == null) {
+      result.push({ ...file[i], data: "dados não existe" });
+    } else {
+      result.push({
+        ...file[i],
+        data: { ...data, code: Number(data?.code) },
+      });
+    }
+  }
+  return result;
+}
 }

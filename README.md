@@ -36,6 +36,12 @@ Upload do arquivo
 
 </br>
 
+# Variaveis
+
+`DATABASE_URL = mysql://UserName:Password@Hostname:5432/DatabaseName`
+
+`PORT = number #recommended:4000`
+
 # Rodar localmente
 
 Clone projeto:
@@ -65,12 +71,6 @@ Rodar em modo desenvolvimento:
 ```bash
     npm run dev
 ```
-
-# Variaveis
-
-`DATABASE_URL = mysql://UserName:Password@Hostname:5432/DatabaseName`
-
-`PORT = number #recommended:4000`
 
 # Author
 

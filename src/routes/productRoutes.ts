@@ -10,7 +10,7 @@ const upload = multer({
 productRoutes.post(
   "/sendFile",
   upload.single("file"),
-  productController.readFile
+  productController.validateFile
 );
 
 export default productRoutes;

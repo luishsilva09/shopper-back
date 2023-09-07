@@ -19,4 +19,36 @@ export async function validateFile(req: Request, res: Response) {
   //   result = await packPrice(result);
   res.send(result);
 }
+
+//verificar se falta algum campo
+async function missElement(file: Express.Multer.File) {
+  const fileData: Array<object> = await csv().fromString(
+    file.buffer.toString()
+  );
+  const result: Array<object> = [];
+
+  fileData.forEach((element: any) => {
+    if (
+      !element.hasOwnProperty("product_code") ||
+      !element.hasOwnProperty("new_price")
+    ) {
+      result.push({ ...element, invalidElement: "Campos incorretos" });
+    }
+
+    // verificar se possui todos os dados e sao validos
+    if (
+      !element.product_code ||
+      !element.new_price ||
+      isNaN(element.product_code) ||
+      isNaN(element.new_price) ||
+      element.new_price < 0 ||
+      element.product_code < 0
+    ) {
+      result.push({ ...element, invalidElement: "Campos incorretos" });
+    } else {
+      result.push({ ...element, invalidElement: "Dados OK" });
+    }
+  });
+  return result;
+}
 }

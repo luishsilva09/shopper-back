@@ -13,4 +13,6 @@ productRoutes.post(
   productController.validateFile
 );
 
+productRoutes.post("/update", productController.update);
+
 export default productRoutes;

@@ -102,7 +102,32 @@ async function validNewPrice(file: any) {
       result.push({ ...e, novoPreco: "Dados OK" });
     }
   });
-
   return result;
 }
+//validacao de preco por pack
+async function packPrice(file: any) {
+  const result = [];
+  for (let i = 0; i < file.length; i++) {
+    const packInfo = await db.packs.findFirst({
+      where: { pack_id: Number(file[i]?.product_code) || 0 },
+    });
+    if (packInfo == null) {
+      result.push({ ...file[i], packInfo: false });
+    } else {
+      result.push({ ...file[i], packInfo: "ok" });
+    }
+  }
+  return result;
+}
+
+export async function update(req: Request, res: Response) {
+  const data = req.body;
+
+  for (let i = 0; i < data.length; i++) {
+    await db.products.update({
+      where: { code: data[i].data.code },
+      data: { sales_price: Number(data[i].new_price) },
+    });
+  }
+  res.send("OK");
 }

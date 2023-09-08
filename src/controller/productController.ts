@@ -12,7 +12,7 @@ export async function validateFile(req: Request, res: Response) {
   result = await existProduct(result);
   result = await costPriceNewPrice(result);
   result = await validNewPrice(result);
-  //   result = await packPrice(result);
+  // await packPrice(result);
   res.send(result);
 }
 
@@ -107,20 +107,49 @@ async function validNewPrice(file: any) {
 }
 //validacao de preco por pack
 async function packPrice(file: any) {
-  const result = [];
+  const result: any = [];
+  const packs: Array<any> = [];
+  const productHash = new Map();
+
   for (let i = 0; i < file.length; i++) {
-    const packInfo = await db.packs.findFirst({
+    if (typeof file[i].data != "string") {
+      productHash.set(file[i].data.code, { ...file[i] });
+    }
+    //verifica se é um pack e traz os dados
+    const packInfo = await db.packs.findMany({
       where: { pack_id: Number(file[i]?.product_code) || 0 },
+      include: { products: true },
     });
-    if (packInfo == null) {
-      result.push({ ...file[i], packInfo: false });
-    } else {
-      result.push({ ...file[i], packInfo: "ok" });
+    if (packInfo[0] != null) {
+      packInfo.forEach((e) => {
+        packs.push(e);
+        console.log(e);
+      });
     }
   }
-  return result;
-}
+  //verifica se o produto do pack esta na lista
+  packs.forEach((e) => {
+    const productData = productHash.get(Number(e.products.code));
+    const packData = productHash.get(Number(e.pack_id));
+    if (productData) {
+      // console.log(productData);
+      // console.log(packData);
+      // console.log(e);
 
+      //verifica valor do pack com valor individual
+      if (
+        Number(productData.new_price) * Number(e.qty) ==
+        Number(packData.new_price)
+      ) {
+        console.log("Tudo certo");
+        result.push(productData, { ...packData, packInfo: "OK" });
+      } else {
+        console.log("verifique os dados");
+      }
+    }
+  });
+}
+//fazer o update no banco de dados como os novos dados
 export async function update(req: Request, res: Response) {
   const data = req.body;
 

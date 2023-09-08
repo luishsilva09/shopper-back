@@ -69,6 +69,32 @@ Response:
 
 ### Atualizar dados
 
+```http
+POST /update
+```
+
+Request:
+
+```json
+[
+  {
+    "product_code": "16",
+    "new_price": "20.50",
+    "invalidElement": "Dados OK",
+    "data": {
+      "code": 16,
+      "name": "AZEITE PORTUGUÊS EXTRA VIRGEM GALLO 500ML",
+      "cost_price": "18.44",
+      "sales_price": "20.49"
+    },
+    "cost": "Dados OK",
+    "novoPreco": "Dados OK"
+  }
+]
+```
+
+**body é o resultado da resposta de validação**
+
 # Variaveis
 
 `DATABASE_URL = mysql://UserName:Password@Hostname:3306/DatabaseName`
